@@ -1,0 +1,79 @@
+{% include 'common/header.html' %}
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Full Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in users %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.username}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.get_full_name}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Email</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>DOB</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in drivers %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.full_name}}</td>
+                <td>{{i.phone_number}}</td>
+                <td>{{i.dob}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Email</th>
+                <th>Pick Up</th>
+                <th>Drop Off</th>
+                <th>Price</th>
+                <th>Datetime</th>
+                <th>Vehicle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in rides %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.user.email}}</td>
+                <td>{{i.from_loc}}</td>
+                <td>{{i.to_loc}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.date_time}}</td>
+                <td>{{i.vehicle}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+</body>
+
+{% include 'common/footer.html' %}

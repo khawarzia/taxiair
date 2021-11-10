@@ -1,0 +1,291 @@
+<body class="airportservicespage">
+    <header class="fixed-top">
+    <div class="top-bar-header">
+        <a href="tel: +31(0)85 – 06 02 049 " class="phonenumber"><i class="fas fa-phone-alt"></i> Bel Direct: +31(0)85 – 06 02 049</a>
+        
+            </div>
+    <!--Nav Bar-->
+    <nav class="navbar navbar-expand-xl navigation ">
+      <div class="container ">
+      <a class="navbar-brand navigation-brand" href="#"><img src="static/images/logo.png" width="120"/></a>
+      <button class="navbar-toggler menu-button" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav navigation-items">
+          <a class="nav-link navigation-item hoverunderline  " href="/">Home</a>
+          <a class="nav-link navigation-item hoverunderline activenav" href="/airportservice">Airport Service</a>
+          <a class="nav-link navigation-item hoverunderline " href="/leerlingenvervoer">Leerlingenvervoer</a>
+          <a class="nav-link navigation-item hoverunderline" href="#" >Rolstoel- en Zorgvervoer</a>
+          <a class="nav-link navigation-item hoverunderline" href="#" >Taxi Tarieven</a>
+          <a class="nav-link navigation-item hoverunderline" href="#" >Verhuurdienst</a>
+          <a class="nav-link navigation-item hoverunderline" href="#" >Info</a>
+          {% if request.user.is_authenticated %}
+        <div class="dropdown">
+          <a class="nav-link navigation-item yellow-text" href="javascript;"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownmenu1" > {{request.user.first_name}}</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownmenu1">
+            <a class="dropdown-item" href="/logout">Logout</a>
+
+          </div>
+        </div>
+          {% else %}
+
+          <a class="nav-link navigation-item yellow-text" href="/login" ><i class="far fa-user"></i> Login</a>
+          {% endif %}
+        </div>
+       
+      
+  </div>
+  </div>
+    </nav>
+<!--Nav Bar End-->
+</header>
+  <div class="topareagallery">
+
+      <div class="gallerytitle">
+          <a class="taxiairsmalllink" href="/">
+          <p class="taxiairsmall">Taxi Air</p>
+      </a>
+      <h1>Airport Service</h1></div>
+  </div>
+<div class="container ptb50">
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card booking-tabs">
+      <div class="card-body">
+        <div class="tab-content" id="pills-tabContent">
+          <div id="airport" class="tab-pane fade show active" role="tabpanel" aria-labelledby="pills-airport-tab">
+            <form id="airport_form" action="{% url 'airport-form-submit' %}" method="POST">{% csrf_token %}
+              <input type="hidden" id="dist" >
+              <input type="hidden" id="timet" >
+              <input type="hidden" id="objnum" >
+              <p class="form_top_text">Book a Taxi to Airport.</p>
+              <div class="row">
+                <div class="col-lg-6 border-grey-right">
+        
+                  <div class="location-fields">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="location">
+                          <div class="icon_location"><i class="fas fa-map-marker-alt"></i></div>
+                          <select name="pick_up_location" id="pick_up_location2" class="input_location" required onchange="airport_pick(this)">
+                            <option value="" disabled selected>Location</option>
+                            {% for i in objs %}
+                            <option>{{i}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      
+                      
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="location">
+                          <div class="icon_location"><i class="fas fa-map-marked-alt"></i></div>
+                          <select name="drop_off_location" id="drop_off_location2" class="input_location" required onchange="airport_dest(this)">
+                            <option value="" disabled selected>Destination</option>
+                            {% for i in objs %}
+                            <option>{{i}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+      
+                        <script>
+                          function airport_pick(a){
+                            document.getElementById('airport-price').innerText = "-";
+                            $.get('/get-airport-dest/'+a.value, function (data){
+                              inputdata = "<option value='' disabled selected>Destination</option>"
+                              for(i=0;i<data['a'].length;i++){
+                                inputdata += "<option>"+data['a'][i]+"</option>";
+                              }
+                              document.getElementById('drop_off_location2').innerHTML = inputdata;
+                              document.getElementById('drop_off_location2').setAttribute('onchange','get_price(1)');
+                              document.getElementById('car-type2').setAttribute('onchange','get_price(1)');
+                              document.getElementById('return').setAttribute('onchange','get_price(1)');
+                            });
+                          }
+                          function airport_dest(a){
+                            document.getElementById('airport-price').innerText = "-";
+                            $.get('/get-airport-dest/'+a.value, function (data){
+                              inputdata = "<option value='' disabled selected>Location</option>"
+                              for(i=0;i<data['a'].length;i++){
+                                inputdata += "<option>"+data['a'][i]+"</option>";
+                              }
+                              document.getElementById('pick_up_location2').innerHTML = inputdata;
+                              document.getElementById('drop_off_location2').setAttribute('onchange','get_price(2)');
+                              document.getElementById('car-type2').setAttribute('onchange','get_price(2)');
+                              document.getElementById('return').setAttribute('onchange','get_price(2)');
+                            });
+                          }
+                          function get_price(a){
+                            if(a==1){
+                              b = 'pick_up_location2';
+                              c = 'drop_off_location2';
+                            }
+                            else{
+                              b = 'drop_off_location2';
+                              c = 'pick_up_location2';
+                            }
+                            d = 'car-type2';
+                            if (document.getElementById(d).value){
+                              if (document.getElementById('return').checked){
+                                tempmul = 'a';
+                              }
+                              else{
+                                tempmul = 'b';
+                              }
+                              $.get('/get-price/'+document.getElementById(b).value+"/"+document.getElementById(c).value+"/"+document.getElementById(d).value+"/"+tempmul, function (data){
+                                document.getElementById('airport-price').innerText = data['price'];
+                              })
+                            }
+                          }
+                        </script>
+                      
+              
+                      
+                      </div>
+              
+                    </div></div>
+                    <div class="info_field">
+                    <div class="row">
+                  <div class="col-lg-12">
+                        <div class="location">
+                          <div class="icon_location"><i class="fas fa-clock"></i></div>
+                          <input type="datetime-local" id="booking-time" name="booking-time" class="input_location" required>
+                  
+                        </div></div>
+                        
+                    
+                        <div class="col-lg-12">
+                          <div class="location">
+                            
+                            <div class="icon_location"><i class="fas fa-car"></i></div>
+                            <select name="car_type" id="car-type2" class="input_location " required  >
+                              <option value="" hidden>Select Car Type</option>
+                              <option value="sedan">TaxiAir Sedan</option>
+                              <option value="bus">TaxiAir Bus</option>
+                              <option value="xxlbus">TaxiAir XXL Bus of Rolstoel</option>
+                              
+                            </select>
+                          </div>
+                          <div class="tooltipcartype">
+                          <a href="javascript:void(0)" data-toggle="popover" id="cartypetoggle" data-trigger="hover" title="Car Types">  <i class="fas fa-question-circle" ></i>
+                          </a>
+                          </div>
+                        
+                        
+                          
+                        </div>
+                
+                    
+      
+                     
+      
+                        <div class="col-lg-12">
+                          <div class="location">
+                            <div class="icon_location">
+                              
+                              <i class="fas fa-plane-departure"></i>
+                            
+                            </div>
+                              <input type="text" name="flight" placeholder="Flight Number(Optional)" class="input_location">
+                              
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                          <div class="location">
+                            <div class="icon_location"><i class="fas fa-sticky-note"></i></div>
+                            <textarea id="remarks" class="input_location" name="remarks"
+                            onfocus="if(this.value=='Remarks(Optional)'){this.value='';}" onblur="if(this.value==''){this.value='Remarks(Optional)';}">Remarks(Optional)</textarea>
+                          </div>
+                        
+                          
+                        </div>
+                        <div class="col-6">
+                          <div class="location">
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" class="custom-control-input" name="return" id="return" checked>
+                              <label class="custom-control-label" for="return">Return</label>
+                             
+                              
+                            </div>
+                          
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="location">
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" class="custom-control-input" name="baby" id="baby" checked>
+                             
+                              <label class="custom-control-label" for="baby">Babystoel</label>
+                              
+                            </div>
+                            
+                                          
+                          </div>
+                        </div>
+                      
+                      </div>
+              
+                    </div>
+              
+                </div>
+                <div class="col-lg-6 content-center">
+                  <div class="prices">
+                    <div class="price-heading">
+                      Total Price
+                    </div>
+                    <div class="price-amount">
+                      € <span id="airport-price">-</span>
+                    </div>
+                    <div class="tax-amount">
+                      *Tax Inclusive
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+            
+            <div class="row">
+              <div class="col-lg-12">
+              
+                <input type="submit" value="Book Now" class="btn btn-custom submit_button_form">
+              </div>
+            </div>
+            
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+</div>
+<div id="customcartypemsg">
+  <div class="cartype">
+      <span class="cartypepopoverheading">TaxiAir Sedan</span><br> 
+      <ul>
+          <li>        3-4 People
+          </li>
+      </ul>
+  </div>
+  <div class="cartype">
+      <span class="cartypepopoverheading">TaxiAir Bus</span><br>
+      <ul>
+          <li>        5-7 People
+          </li>
+      </ul>
+
+  </div>
+  <div class="cartype">
+      <span class="cartypepopoverheading">TaxiAir XXL</span><br>
+      <ul>
+          <li>        8-10 People
+          </li>
+      </ul>
+
+  </div>
+</div>
+
+</body>
+

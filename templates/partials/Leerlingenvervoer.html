@@ -1,0 +1,62 @@
+<body class="gallerypage">
+    
+    <header class="fixed-top">
+        <div class="top-bar-header">
+            <a href="tel: +31(0)85 – 06 02 049 " class="phonenumber"><i class="fas fa-phone-alt"></i> Bel Direct: +31(0)85 – 06 02 049</a>
+            
+                </div>
+      <!--Nav Bar-->
+      <nav class="navbar navbar-expand-xl navigation ">
+        <div class="container ">
+        <a class="navbar-brand navigation-brand" href="#"><img src="static/images/logo.png" width="120"/></a>
+        <button class="navbar-toggler menu-button" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav navigation-items">
+            <a class="nav-link navigation-item hoverunderline  " href="/">Home</a>
+            <a class="nav-link navigation-item hoverunderline" href="/airportservice">Airport Service</a>
+            <a class="nav-link navigation-item hoverunderline activenav" href="/leerlingenvervoer">Leerlingenvervoer</a>
+            <a class="nav-link navigation-item hoverunderline" href="#" >Rolstoel- en Zorgvervoer</a>
+            <a class="nav-link navigation-item hoverunderline" href="#" >Taxi Tarieven</a>
+            <a class="nav-link navigation-item hoverunderline" href="#" >Verhuurdienst</a>
+            <a class="nav-link navigation-item hoverunderline" href="#" >Info</a>
+            {% if request.user.is_authenticated %}
+          <div class="dropdown">
+            <a class="nav-link navigation-item yellow-text" href="javascript;"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownmenu1" > {{request.user.first_name}}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownmenu1">
+              <a class="dropdown-item" href="/logout">Logout</a>
+
+            </div>
+          </div>
+            {% else %}
+
+            <a class="nav-link navigation-item yellow-text" href="/login" ><i class="far fa-user"></i> Login</a>
+            {% endif %}
+          </div>
+         
+        
+    </div>
+    </div>
+      </nav>
+ <!--Nav Bar End-->
+    </header>
+    <div class="topareagallery">
+
+        <div class="gallerytitle">
+            <a class="taxiairsmalllink" href="/">
+            <p class="taxiairsmall">Taxi Air</p>
+        </a>
+        <h1>Leerlingenvervoer</h1></div>
+    </div>
+
+    <div class="container mt-3 mb-3">
+        <div class="card card-body">
+s
+<script>
+
+</script>
+        </div>
+    </div>
+</body>
+

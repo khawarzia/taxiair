@@ -1,0 +1,45 @@
+<body class="checkout-page">
+    
+    <div class="container mt-3 mb-5  checkout-container">
+        
+            <div class="row">
+                    <div class="checkouttop">
+                         
+                                    <img src="/static/images/logo.png" alt="Taxi Air" width="150">
+                         
+                           
+                    </div>
+
+
+<div class="col-lg-12 ">
+    <div class="card mt-5 mb-2 h-100">
+            <div class="card-body checkoutcardright">
+                    <div class="title">APPLICATION STATUS</div>
+                  
+                    <div class="contentrightside">
+                            <div class="statuspayment">
+                            <div class="headingright">
+                                   <img src="/static/images/success.gif" width="100" alt="">
+                            </div>
+                            <div class="paymentstatusdetails" {% if obj.is_local %} style="font-size: 16px;" {% endif %} >
+                                    WE HAVE RECIEVED YOUR APPLICATION!
+                                    
+                            </div>
+                            <div class="confirmationdriver">
+                                    Our Representative Will Shortly Contact You For Verification
+                            </div>
+                            <div class="screenshottext">
+                                PLEASE TAKE A SCREENSHOT OF THIS SCREEN
+                        </div>
+                         </div>
+                    </div>
+                    <div class="buttoncontentrightside">
+                            <a href="/" class="btn btn-lg btn-checkout" >GO BACK</a>
+                    </div>
+            </div>
+</div>
+
+</div>          
+            </div>
+    </div>
+</body>

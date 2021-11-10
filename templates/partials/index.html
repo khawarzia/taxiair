@@ -1,0 +1,951 @@
+<body>
+    <header class="fixed-top">
+      <div class="top-bar-header">
+  <a href="tel: +31(0)85 – 06 02 049 " class="phonenumber"><i class="fas fa-phone-alt"></i> Bel Direct: +31(0)85 – 06 02 049</a>
+  
+      </div>
+  
+      <!--Nav Bar-->
+      <nav class="navbar navbar-expand-xl navigation ">
+          <div class="container ">
+          <a class="navbar-brand navigation-brand" href="/"><img src="static/images/logo.png" width="120"/></a>
+          <button class="navbar-toggler menu-button" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav navigation-items">
+              <a class="nav-link navigation-item hoverunderline activenav " href="#">Home</a>
+              <a class="nav-link navigation-item hoverunderline" href="/airportservice">Airport Service</a>
+              <a class="nav-link navigation-item hoverunderline" href="/leerlingenvervoer">Leerlingenvervoer</a>
+              <a class="nav-link navigation-item hoverunderline" href="#" >Rolstoel- en Zorgvervoer</a>
+              <a class="nav-link navigation-item hoverunderline" href="#" >Taxi Tarieven</a>
+              <a class="nav-link navigation-item hoverunderline" href="#" >Verhuurdienst</a>
+              <a class="nav-link navigation-item hoverunderline" href="#" >Info</a>
+              {% if request.user.is_authenticated %}
+            <div class="dropdown">
+              <a class="nav-link navigation-item yellow-text" href="javascript;"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownmenu1" > {{request.user.first_name}}</a>
+              <div class="dropdown-menu" aria-labelledby="dropdownmenu1">
+                <a class="dropdown-item" href="/logout">Logout</a>
+
+              </div>
+            </div>
+              {% else %}
+
+              <a class="nav-link navigation-item yellow-text" href="/login" ><i class="far fa-user"></i> Login</a>
+              {% endif %}
+            </div>
+           
+          
+      </div>
+      </div>
+        </nav>
+   <!--Nav Bar End-->
+  </header>
+  
+  <!--MainPage Start-->
+  <div class="mainpage" >
+    
+    <div class="background-img" id="background-cover">
+  
+      <div class="background-text" data-aos="fade-up"   data-aos-duration="2000"><a href="tel:+31850602049"><h2><i class="fas fa-phone-alt"></i> Bel Direct: +31850602049</h2>  </a></div>
+      
+      <div class="background-heading" data-aos="fade-up"   data-aos-duration="2000">
+        <div class="background-heading1">Taxi Air</div>
+        <div class="background-heading2">24/7 ONLINE RESERVEREN</div>
+        
+      </div>
+  
+      <svg type="button" id="scrollarrow" class="arrows" data-aos="fade-up"   data-aos-duration="1000">
+        <path class="a1" d="M0 0 L30 32 L60 0"></path>
+        <path class="a2" d="M0 20 L30 52 L60 20"></path>
+        <path class="a3" d="M0 40 L30 72 L60 40"></path>
+      </svg>
+  
+    </div>
+   
+  <!--<script>
+var i = 0;
+var images = [];
+var slideTime = 10000; // 3 seconds
+
+images[0] = 'static/images/ImagesTaxiAir/0.jpeg';
+images[1] = 'static/images/background.jpg';
+images[2] = 'static/images/background.jpg';
+/*images[2] = 'https://via.placeholder.com/150/AAA300';
+*/
+function changePicture() {
+  document.getElementById('background-cover').style.backgroundImage = "";
+
+    document.getElementById('background-cover').style.backgroundImage = "url(" + images[i] + ")";
+
+    if (i < images.length - 1) {
+        i++;
+    } else {
+        i = 0;
+    }
+    setTimeout(changePicture, slideTime);
+}
+
+window.onload = changePicture;
+
+  </script>-->
+  </div>
+   <!--MainPage End-->
+   <!--Pricing Start-->
+   <div id="pricing" >
+     <div class="text-pricing">
+       Book a Taxi
+      
+     </div>
+     <div class="line">
+      <div class="underlineyellow">
+      </div></div>
+   <div class="card booking-tabs" data-aos="fade-up"   data-aos-duration="2000">
+    <div class="card-header">
+      <ul class="nav nav-pills" id="pills-tab" role="tablist">
+  
+        <li class="nav-item ">
+          <a class="nav-link active" data-toggle="pill" href="#inter_city" role="tab" aria-controls="pills-incity" aria-selected="true">In City</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#airport" role="tab" aria-controls="pills-airport" aria-selected="false">Airport</a>
+        </li>
+      
+      </ul>
+      
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="pills-tabContent">
+    <div id="inter_city" class="tab-pane fade show active"  role="tabpanel" aria-labelledby="pills-incity-tab">
+      <form id="inter_city_form" action="{% url 'local-form-submit' %}" method="POST">{% csrf_token %}
+        <input type="hidden" id="dist" name="dist">
+        <input type="hidden" id="timet" name="timet">
+        <input type="hidden" id="objnum" name="objnum">
+        <p class="form_top_text">Book a ride within the city.</p>
+
+        <script>
+          let autocomplete;
+          let autocomplete2;
+          function initAutocomplete(){
+              autocomplete = new google.maps.places.Autocomplete(
+                  document.getElementById('autocomplete'),{
+                      types: ['establishment'],
+                      componentRestrictions: {'country':['NL']},
+                      fields: ['place_id','geometry','name']
+                  }
+              );
+              autocomplete.addListener('place_changed', onPlaceChanged);
+              autocomplete2 = new google.maps.places.Autocomplete(
+                  document.getElementById('autocomplete2'),{
+                      types: ['establishment'],
+                      componentRestrictions: {'country':['NL']},
+                      fields: ['place_id','geometry','name']
+                  }
+              );
+              autocomplete2.addListener('place_changed', onPlaceChanged2);
+          }
+          function onPlaceChanged(){
+              var place = autocomplete.getPlace();
+              if(!place.geometry){
+                  return;
+              }
+              else{
+                  //window.alert(place.place_id);
+                  document.getElementById('placeid').value = place.place_id;
+                  get_price_in_city();
+              }
+          }
+          function onPlaceChanged2(){
+              var place = autocomplete2.getPlace();
+              if(!place.geometry){
+                  return;
+              }
+              else{
+                  //window.alert(place.place_id);
+                  document.getElementById('placeid2').value = place.place_id;
+                  get_price_in_city();
+              }
+          }
+          function enter_roter(a){
+            vara = a.value.indexOf("Rotterdam");
+            if (vara < 0){
+              a.value = "Rotterdam, " + a.value;
+            }
+          }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr0ZCQ_NromoQtcplxGQePRaBHZ5cCuZw&libraries=places&callback=initAutocomplete" async defer></script>       
+  
+        <div class="row">
+          <div class="col-lg-6 border-grey-right">
+            <div class="location-fields">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-map-marker-alt"></i></div>
+                    <input type="text" name="pick_up_location" id="autocomplete" class="input_location" required oninput="enter_roter(this);checkenter(this)" onchange="checkenter(this)">
+                  </div>
+
+                </div>
+                <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-map-marked-alt"></i></div>
+                    <input type="text" name="drop_off_location" id="autocomplete2" class="input_location" required oninput="enter_roter(this);checkenter(this)" onchange="checkenter(this)">
+                  </div>
+                </div>
+        
+              </div></div>
+              <div class="info_field">
+              <div class="row">
+           
+                <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-clock"></i></div>
+                    <input type="datetime-local" id="booking-time" name="booking-time" class="input_location" required>
+            
+                  </div></div>
+                  <input type="hidden" name="placeid" id="placeid">
+                  <input type="hidden" name="placeid2" id="placeid2">
+                  <script>
+                    function get_price_in_city(){
+                      temp = document.getElementById('placeid');
+                      temp2 = document.getElementById('placeid2');
+                      if (temp.value){
+                        $.get('/get-price-in-city/'+temp.value+'/'+temp2.value+'/'+document.getElementById('car-type').value, function (data){
+                          document.getElementById('incity-price').innerText = data[0];
+                          document.getElementById('dist').value = data[1];
+                          document.getElementById('timet').value = data[2];
+                          document.getElementById('objnum').value = data[3];
+                        });
+                      }
+                    }
+                  </script>
+                
+                  <div class="col-lg-12">
+                    <div class="location">
+                      <div class="icon_location"><i class="fas fa-car"></i></div>
+                      <select name="car_type" id="car-type" class="input_location " required onchange="get_price_in_city()">
+                        <option value="" hidden>Select Car Type</option>
+                        <option value="taxiair">TaxiAir Sedan</option>
+                        <option value="taxiairvan">TaxiAir Bus</option>
+                        <option value="taxiairrolstoel">TaxiAir XXL Bus of Rolstoel
+                        </option>
+                        
+
+                      </select>
+                      
+                    </div>
+                    <div class="tooltipcartype">
+                      <a href="javascript:void(0)" data-toggle="popover" id="cartypetoggle" data-trigger="hover" title="Car Types">  <i class="fas fa-question-circle" ></i>
+                      </a>
+                      </div>
+                    
+                  </div>
+                
+                  <div class="col-lg-12">
+                    <div class="location">
+                      <div class="icon_location"><i class="fas fa-sticky-note"></i></div>
+                      <textarea id="remarks" class="input_location" name="remarks"
+                      onfocus="if(this.value=='Remarks(Optional)'){this.value='';}" onblur="if(this.value==''){this.value='Remarks(Optional)';}">Remarks(Optional)</textarea>
+                    </div>
+                  
+                    
+                  </div>
+
+                </div>
+        
+              </div>
+          
+          </div>
+          <div class="col-lg-6 content-center top-spacing-md">
+            <div class="prices">
+              <div class="price-heading">
+                Total Price
+              </div>
+              <div class="price-amount">
+                € <span id="incity-price">-</span>
+              </div>
+              <div class="tax-amount">
+                *Tax Inclusive
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+
+        </div>
+     
+     
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="errorairport" class="error errorairport">* Please Switch to the Airport Tab or <a href="/airportservice">Here</a> to go to the Airport Services Page to Book a Ride From/To Airport</div>
+     
+          <input type="submit" value="Book Now" id="incitysubmit" class="btn btn-custom submit_button_form">
+        </div>
+      </div>
+      
+      </form>
+    </div>
+
+    <div id="airport" class="tab-pane fade" role="tabpanel" aria-labelledby="pills-airport-tab">
+      <form id="airport_form" action="{% url 'airport-form-submit' %}" method="POST">{% csrf_token %}
+        <input type="hidden" id="dist" >
+        <input type="hidden" id="timet" >
+        <input type="hidden" id="objnum" >
+        <p class="form_top_text">Book a Taxi to Airport.</p>
+        <div class="row">
+          <div class="col-lg-6 border-grey-right">
+  
+            <div class="location-fields">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-map-marker-alt"></i></div>
+                    <select name="pick_up_location" id="pick_up_location2" class="input_location" required onchange="airport_pick(this)">
+                      <option value="" disabled selected>Location</option>
+                      {% for i in objs %}
+                      <option>{{i}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                
+                
+                </div>
+                <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-map-marked-alt"></i></div>
+                    <select name="drop_off_location" id="drop_off_location2" class="input_location" required onchange="airport_dest(this)">
+                      <option value="" disabled selected>Destination</option>
+                      {% for i in objs %}
+                      <option>{{i}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <script>
+                    function airport_pick(a){
+                      document.getElementById('airport-price').innerText = "-";
+                      $.get('/get-airport-dest/'+a.value, function (data){
+                        inputdata = "<option value='' disabled selected>Destination</option>"
+                        for(i=0;i<data['a'].length;i++){
+                          inputdata += "<option>"+data['a'][i]+"</option>";
+                        }
+                        document.getElementById('drop_off_location2').innerHTML = inputdata;
+                        document.getElementById('drop_off_location2').setAttribute('onchange','get_price(1)');
+                        document.getElementById('car-type2').setAttribute('onchange','get_price(1)');
+                        document.getElementById('return').setAttribute('onchange','get_price(1)');
+                      });
+                    }
+                    function airport_dest(a){
+                      document.getElementById('airport-price').innerText = "-";
+                      $.get('/get-airport-dest/'+a.value, function (data){
+                        inputdata = "<option value='' disabled selected>Location</option>"
+                        for(i=0;i<data['a'].length;i++){
+                          inputdata += "<option>"+data['a'][i]+"</option>";
+                        }
+                        document.getElementById('pick_up_location2').innerHTML = inputdata;
+                        document.getElementById('drop_off_location2').setAttribute('onchange','get_price(2)');
+                        document.getElementById('car-type2').setAttribute('onchange','get_price(2)');
+                        document.getElementById('return').setAttribute('onchange','get_price(2)');
+                      });
+                    }
+                    function get_price(a){
+                      if(a==1){
+                        b = 'pick_up_location2';
+                        c = 'drop_off_location2';
+                      }
+                      else{
+                        b = 'drop_off_location2';
+                        c = 'pick_up_location2';
+                      }
+                      d = 'car-type2';
+                      if (document.getElementById(d).value){
+                        if (document.getElementById('return').checked){
+                          tempmul = 'a';
+                        }
+                        else{
+                          tempmul = 'b';
+                        }
+                        $.get('/get-price/'+document.getElementById(b).value+"/"+document.getElementById(c).value+"/"+document.getElementById(d).value+"/"+tempmul, function (data){
+                          document.getElementById('airport-price').innerText = data['price'];
+                        })
+                      }
+                    }
+
+                    function checkenter(ele){
+                      var elemid = ele.id;
+                      var inputvalue = ele.value;
+                      if((inputvalue.indexOf('Airport')) > -1){
+                        document.getElementById('incitysubmit').disabled = true;
+                        document.getElementById('errorairport').style.display = 'block'
+
+                      }
+                      else{
+                        document.getElementById('incitysubmit').disabled = false;
+                        document.getElementById('errorairport').style.display = 'none'
+
+                      }
+                      console.log(inputvalue);
+                    }
+                  </script>
+                
+        
+                
+                </div>
+        
+              </div></div>
+              <div class="info_field">
+              <div class="row">
+           <div class="col-lg-12">
+                  <div class="location">
+                    <div class="icon_location"><i class="fas fa-clock"></i></div>
+                    <input type="datetime-local" id="booking-time" name="booking-time" class="input_location" required>
+            
+                  </div></div>
+                 
+             
+                  <div class="col-lg-12">
+                    <div class="location">
+                      <div class="icon_location"><i class="fas fa-car"></i></div>
+                      <select name="car_type" id="car-type2" class="input_location " required >
+                        <option value="" hidden>Select Car Type</option>
+                        <option value="sedan">TaxiAir Sedan</option>
+                        <option value="bus">TaxiAir Bus</option>
+                        <option value="xxlbus">TaxiAir XXL Bus of Rolstoel</option>
+                        
+
+                      </select>
+                    </div>
+                    <div class="tooltipcartype">
+                      <a href="javascript:void(0)" data-toggle="popover" id="cartype2toggle" data-trigger="hover" title="Car Types">  <i class="fas fa-question-circle" ></i>
+                      </a>
+                      </div>
+                    
+                  </div>
+          
+         
+                  <div class="col-lg-12">
+                    <div class="location">
+                      <div class="icon_location">
+                        
+                        <i class="fas fa-plane-departure"></i>
+                      </div>
+                        <input type="text" name="flight" placeholder="Flight Number(Optional)" class="input_location">
+                        
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="location">
+                      <div class="icon_location"><i class="fas fa-sticky-note"></i></div>
+                      <textarea id="remarks" class="input_location" name="remarks"
+                      onfocus="if(this.value=='Remarks(Optional)'){this.value='';}" onblur="if(this.value==''){this.value='Remarks(Optional)';}">Remarks(Optional)</textarea>
+                    </div>
+                  
+                    
+                  </div>
+                  <div class="col-6">
+                    <div class="location">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="return" id="return" checked>
+                        <label class="custom-control-label" for="return">Return</label>
+                       
+                        
+                      </div>
+                    
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="location">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="baby" id="baby" checked>
+                       
+                        <label class="custom-control-label" for="baby">Babystoel</label>
+                        
+                      </div>
+                      
+                                    
+                    </div>
+                  </div>
+                  
+                </div>
+        
+              </div>
+       
+          </div>
+          <div class="col-lg-6 content-center">
+            <div class="prices">
+              <div class="price-heading">
+                Total Price
+              </div>
+              <div class="price-amount">
+                € <span id="airport-price">-</span>
+              </div>
+              <div class="tax-amount">
+                *Tax Inclusive
+              </div>
+            </div>
+          </div>
+        </div>
+     
+     
+      <div class="row">
+        <div class="col-lg-12">
+          <input type="submit" value="Book Now" class="btn btn-custom submit_button_form">
+        </div>
+      </div>
+      
+      </form>
+    </div>
+
+  </div>
+  </div>
+  </div>
+   </div>
+   <!--Pricing End-->
+   <!--About-->
+   <div id="about">
+    <div class="about-header">
+      <div class="text">
+        About
+      </div>
+      <div class="line">
+        <div class="lower-border"></div>
+      </div>
+    </div>
+    <div class="about-content" data-aos="fade-up"   data-aos-duration="2000">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 left-content-about">
+          <figure>
+            <img src="static/images/taxiabout_2.png" class="image-left-content-about"/>
+          </figure>
+          </div>
+          <div class="col-lg-6">
+            <div class="right-content-about">
+              <div class="about-text">
+                Taxi Air heeft alle keurmerken om het vervoer zo veilig en comfortabel mogelijk uit te voeren voor haar klanten. Veiligheid en betrouwbaarheid staan bij ons hoog. Taxi Air beschikt over TX-keurmerk en RTX gekeurde chauffeurs. Tevens geeft Taxi Air begeleiding aan haar alle chauffeurs om een EHBO, veiligheids-, rolstoel- leerlingen- en lastige situatie cursussen te behalen. Taxi Air is gespecialiseerd in het opleiden van de chauffeurs tot behalen van een chauffeurspas en/of een RTX keurmerk.         </div>
+        <div class="learn-more-tag">
+              <a href="#" class="learn-more" >Learn More <i class="fas fa-chevron-right"></i></a>
+            </div>
+         
+            </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!--About End-->
+  
+   <!--Services Part-->
+   <div id="services" >
+    <div class="about-header">
+      <div class="text">
+        Services
+      </div>
+      <div class="line">
+        <div class="lower-border"></div>
+      </div>
+    </div>
+    <div class="services-content" data-aos="fade-up"   data-aos-duration="2000">
+      <div class="container">
+      <div class="top-image-services">
+        <img src="static/images/taxiback2.png"  height="150" alt="">
+      </div>
+      
+     <div class="tabs-services">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 border-line" >
+            <div class="services-tab" data-aos="flip-left" data-aos-duration="3000">
+  <div class="tab-icon">
+    <i class="fas fa-map-marked-alt"></i>
+  </div>
+  <div class="serhead">
+    24/7 Taxidienst in Rotterdam en omgeving
+  </div>
+  <div class="serdes">
+    Onze taxi centrale is 24/7 bereikbaar.
+  </div>
+            </div>
+  
+          </div>
+       <div class="col-lg-3 col-md-6 border-line"  >
+            <div class="services-tab" data-aos="flip-left" data-aos-duration="3000">
+              <div class="tab-icon">
+                <i class="fas fa-directions"></i>
+              </div>
+              <div class="serhead">
+        
+  Lange Afstand
+  
+              </div>
+              <div class="serdes">
+  Wij bieden u indien nodig een lange afstandstaxi.            </div>
+                        </div>
+          </div>
+          <div class="col-lg-3 col-md-6 border-line" >
+            <div class="services-tab" data-aos="flip-left" data-aos-duration="3000"> 
+              <div class="tab-icon">
+                <i class="fas fa-taxi"></i>
+              </div>
+              <div class="serhead">
+           Voordelige Taxi in Vlaardingen, Schiedam, Rotterdam en omgeving
+     </div>
+              <div class="serdes">
+                Voordelige taxi van Rotterdam, Schiedam, Vlaardingen en…            </div>
+                        </div>
+          </div>
+          <div class="col-lg-3 col-md-6 border-line" >
+            <div class="services-tab" data-aos="flip-left" data-aos-duration="3000">
+              <div class="tab-icon">
+                <i class="fas fa-plane-departure"></i>
+              </div>
+              <div class="serhead">
+                Vliegveld Taxi inzetbaar in Rotterdam en omstreken
+  </div>
+              <div class="serdes">
+                Van of naar Schiphol? Wij zijn beschikbaar!            </div>
+                        </div>
+          </div>
+         
+       <!--  <div class="container tabs-services">
+         
+            
+            <div class="row align-items-center how-it-works d-flex">
+              <div class="col-2 text-center bottom d-inline-flex justify-content-center align-items-center">
+                <div class="circle font-weight-bold"> <i class="fas fa-map-marked-alt"></i></div>
+              </div>
+              <div class="col-6">
+                <h5 class="heading-services">24/7 Taxidienst in Rotterdam en omgeving</h5>
+                <p class="servicedes">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor gravida aliquam. Morbi orci urna, iaculis in ligula et, posuere interdum lectus.</p>
+              </div>
+            </div>
+        
+            <div class="row timeline">
+              <div class="col-2">
+                <div class="corner top-right"></div>
+              </div>
+              <div class="col-8">
+                <hr/>
+              </div>
+              <div class="col-2">
+                <div class="corner left-bottom"></div>
+              </div>
+            </div>
+            
+            <div class="row align-items-center justify-content-end how-it-works d-flex">
+              <div class="col-6 text-right">
+                <h5 class="heading-services">Dummy heading</h5>
+                <p class="servicedes">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor gravida aliquam. Morbi orci urna, iaculis in ligula et, posuere interdum lectus.</p>
+              </div>
+              <div class="col-2 text-center full d-inline-flex justify-content-center align-items-center">
+                <div class="circle font-weight-bold">   <i class="fas fa-directions"></i></div>
+              </div>
+            </div>
+            
+            <div class="row timeline">
+              <div class="col-2">
+                <div class="corner right-bottom"></div>
+              </div>
+              <div class="col-8">
+                <hr/>
+              </div>
+              <div class="col-2">
+                <div class="corner top-left"></div>
+              </div>
+            </div>
+    
+            
+            <div class="row align-items-center how-it-works d-flex">
+              <div class="col-2 text-center top  d-inline-flex justify-content-center align-items-center">
+                <div class="circle font-weight-bold">      <i class="fas fa-taxi"></i></div>
+              </div>
+              <div class="col-6">
+                <h5 class="heading-services">24/7 Taxidienst in Rotterdam en omgeving</h5>
+                <p class="servicedes">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor gravida aliquam. Morbi orci urna, iaculis in ligula et, posuere interdum lectus.</p>
+             </div>
+            </div>
+            
+          </div>-->
+        </div>
+  
+      </div>
+   
+    </div></div>
+  </div>
+  <!--Services part End-->
+  <div id="pricing" >
+    <div class="text-pricing">
+      Gallery
+     
+    </div>
+    <div class="line">
+     <div class="underlineyellow">
+     </div></div>
+  
+    <div class="container text-center my-3"  data-aos="fade-up"   data-aos-duration="2000">
+  
+      <div class="row mx-auto my-auto">
+          <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+              <div class="carousel-inner w-100" role="listbox">
+                  <div class="carousel-item active">
+                      <div class="col-md-4">
+                          <div class="card card-body noboder">
+                              <img class="img-fluid" src="static/images/ImagesTaxiAir/0.jpeg">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item">
+                      <div class="col-md-4">
+                          <div class="card card-body noboder">
+                              <img class="img-fluid" src="static/images/ImagesTaxiAir/53.jpeg">
+                          </div>
+                      </div>
+                  </div>
+                
+                  <div class="carousel-item">
+                      <div class="col-md-4">
+                          <div class="card card-body noboder">
+                              <img class="img-fluid" src="static/images/ImagesTaxiAir/54.jpeg">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item">
+                      <div class="col-md-4">
+                          <div class="card card-body noboder">
+                              <img class="img-fluid" src="static/images/ImagesTaxiAir/55.jpeg">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item">
+                      <div class="col-md-4">
+                        <div class="card card-body noboder viewmoreimage">
+
+                            <img class="img-fluid" src="static/images/viewmore.png">
+                            <div class="view-more-tab-content">
+                                <a href="/gallery">
+                                <div class="view-morelogo">
+                                  <i class="far fa-images"></i>
+                                </div>
+                                <div class="view-moretext">
+    View More 
+                                </div></a>
+                              </div>
+                           
+                            
+                      
+                          
+                                
+                            
+                        </div>
+                          
+                      </div>
+                  </div>
+              </div>
+              <a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+              </a>
+          </div>
+      </div>
+  
+  
+  
+  <script>
+    $('#recipeCarousel').carousel({
+    interval: 10000
+  })
+  
+  $('.carousel .carousel-item').each(function(){
+      var minPerSlide = 3;
+      var next = $(this).next();
+      if (!next.length) {
+      next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      for (var i=0;i<minPerSlide;i++) {
+          next=next.next();
+          if (!next.length) {
+              next = $(this).siblings(':first');
+            }
+          
+          next.children(':first-child').clone().appendTo($(this));
+        }
+  });
+  
+  </script>
+  </div>
+  </div>
+   <!--About-->
+   <div id="about">
+    <div class="about-header">
+      <div class="text">
+        Register as a Driver
+      </div>
+      <div class="line">
+        <div class="lower-border"></div>
+      </div>
+    </div>
+    <div class="about-content" data-aos="fade-up"   data-aos-duration="2000">
+      <div class="container">
+        <div class="row">
+       
+          <div class="col-lg-7">
+            <div class="registerdriver mt-5">
+              <form id="registerdriverform" action="{% url 'register-driver' %}" method="POST">{% csrf_token %}</form>
+              <div class="row">
+                
+                <div class="col-lg-6">
+                  <input class="registerdriverfield w-100" type="text" name="name" id="name" placeholder="Full Name" required form="registerdriverform">
+                </div>
+                <div class="col-lg-6">
+                     <input class="registerdriverfield w-100" type="email" name="email" id="email" placeholder="Email Address" required form="registerdriverform">
+               
+                </div>
+                <div class="col-lg-6">
+                  
+                  <input class="registerdriverfield w-100" type="tel" name="phone" id="phone" placeholder="Phone Number" required form="registerdriverform">
+               
+                </div>
+                <div class="col-lg-6">   
+                  <input class="registerdriverfield w-100" type="text" placeholder="Date of Birth" name="dob" id="dob" required form="registerdriverform" onfocus="(this.type='date')"  >
+                </div>
+                <div class="col-lg-12">
+  
+                  <button form="registerdriverform" class="btn btn-loginsignup w-100 mt-4">Register</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <figure>
+              <img src="static/images/driver.png" class="image-left-content-about"/>
+            </figure>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!--About End-->
+  
+  <!--Testimonials Part-->
+  
+  <!--Testimonials part end-->
+  <!--Footer Top Part-->
+  <div class="yellow_area">
+    
+  </div>
+  <!--Footer Top Part End-->
+  
+  <!--Details Footer Start-->
+  <div id="contact">
+  <div class="footer-details">
+    <div class="contactus-page">
+   <div class="container-fluid"  data-aos="fade-up"   data-aos-duration="2000">
+  
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="footer-logo">
+          <img src="static/images/logoinverse.png" width="150"/>
+        </div>
+        <div class="footer-text">
+          <h5>Taxi Services</h5>
+          <h6>  24 UUR 7 DAGEN PER WEEK</h6>
+          
+        
+        
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="contact-us">
+        <div class="contact-us-heading">
+          Contact Us
+        </div>
+        <div class="contact-us-form">
+          <form id="contact-us-form" method="POST" action="{% url 'contact-form' %}">
+       
+            <input type="text" name="name" id="name" placeholder="Name"/>
+            <input type="email" name="email" id="email" placeholder="Email Address"/>
+            <input type="tel" name="phone" id="phone" placeholder="Phone Number"/>
+            <input type="text" name="city" id="city" placeholder="City"/>
+            <textarea name="comment" id="comment" form="contact-us-form" placeholder="Enter your Question / Remark..."></textarea>
+            <input type="submit" name="submit" id="submit" placeholder="submit" class="btn btn-submit"/>
+          </form>
+        </div>
+      </div>
+      </div>
+      <div class="col-lg-4">
+      <div class="information">
+  
+        <div class="information-heading">
+          Information
+        </div>
+  
+        <div class="info-items">
+          <div class="info-item">
+           <span class="logo"><i class="fas fa-envelope"></i></span> <a href="mailto:info@taxiair.nl">info@taxiair.nl</a>
+          </div>
+      
+           <div class="info-item">
+            <span class="logo"><i class="fas fa-phone-alt"></i></span> <a href="tel:+31(0)85–06 02 049">+31(0)85 – 06 02 049</a>
+           </div>
+           <div class="info-item">
+            <span class="logo"><i class="fas fa-map-marker-alt"></i></span> Dordtselaan 66C02
+            3073 GE Rotterdam
+           </div>
+       
+           <div class="info-item">
+           
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d315150.17578500847!2d4.494711!3d51.895443!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c43375b815d7c9%3A0x3ab2ad417515ce8e!2sDordtselaan%2066A%2C%203073%20GE%20Rotterdam%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1622838044686!5m2!1sen!2sus" width="100%" height="300px" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  
+           </div>
+      
+        </div>
+      </div>
+      </div>
+    </div>
+   </div>
+  </div></div></div>
+  <!--Details Footer End-->
+       <script> 
+        AOS.init();
+  
+        $("#scrollarrow").click(function() {
+          var elmntToView = document.getElementById("pricing");
+          elmntToView.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+  });
+      </script>
+      <div id="customcartypemsg">
+        <div class="cartype">
+            <span class="cartypepopoverheading">TaxiAir Sedan</span><br> 
+            <ul>
+                <li>        3-4 People
+                </li>
+            </ul>
+        </div>
+        <div class="cartype">
+            <span class="cartypepopoverheading">TaxiAir Bus</span><br>
+            <ul>
+                <li>        5-7 People
+                </li>
+            </ul>
+    
+        </div>
+        <div class="cartype">
+            <span class="cartypepopoverheading">TaxiAir XXL</span><br>
+            <ul>
+                <li>        8-10 People
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+    
+  </body>
+  
+  

@@ -1,0 +1,140 @@
+<body class="checkout-page">
+    
+        <div class="container mt-3 mb-3  checkout-container">
+            
+                <div class="row">
+                        <div class="checkouttop">
+                             
+                                        <a href="/"><img src="/static/images/logo.png" alt="Taxi Air" width="150"></a>
+                             
+                               
+                        </div>
+<div class="col-lg-7 pt-3">
+        <div class="card  h-100">
+                <div class="card-body checkoutcardleft">
+                        <div class="title">Booking Details</div>
+                        <div class="checkoutleftbody mt-4">
+                                <div class="row">
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Name:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.user.username}}
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Email:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.user.email}}
+                                                        </div>
+                                                </div>  
+                                        </div>
+                                </div>
+                                <div class="row ">
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Pickup:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.from_loc}}
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Dropoff:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.to_loc}}
+                                                        </div>
+                                                </div>  
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Car Type:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.vehicle}}
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-6 mt-3">
+                                                <div class="itemcheckout">
+                                                        <div class="fieldcheckout">
+                                                                Date & Time:
+                                                        </div>
+                                                        <div class="answerfieldcheckout">
+                                                                {{obj.date_time}}
+                                                        </div>
+                                                </div>  
+                                        </div>
+                                </div>
+                               </div>
+                </div>
+              
+        </div>
+</div>
+
+<div class="col-lg-5 pt-3 ">
+        <div class="card  mb-2 h-100">
+                <div class="card-body checkoutcardright">
+                        <div class="title">Billing Summary</div>
+                      
+                        <div class="contentrightsideincity mt-2">
+                                <div class="contentinnerrightside">
+                                        {% if obj.is_local %}
+                                        <div class="breakdown">
+                                        <div class="titleamount mt-3">
+                                                <div class="row">
+                                                        <div class="col-lg-9 col-md-9">
+                                                                <b>Distance</b><br> ({{obj.dist}} km x € {{a}} /km)
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3">
+                                                                <span class="titlecost">€ {{c}}</span> 
+                                                        </div>
+                                                </div>
+  
+                                        </div>
+                                        <div class="titleamount mt-3">
+                                                <div class="row">
+                                                        <div class="col-lg-9 col-md-9">
+                                                               <b> Time </b><br>({{obj.timet}} min x € {{b}} /min)
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3">
+                                                                <span class="titlecost">€ {{d}}</span> 
+                                                        </div>
+                                                </div>
+  
+                                                  
+                                        </div>
+
+                                </div>
+                                {% endif %}
+                                <div class=" titleamount mt-3">
+                                        <b>Total</b>  <span class="titlecost total">€ {{price}}</span>
+                                </div>
+                                <div class="taxtextright">
+                                        *Tax Inclusive
+                                </div></div>
+                        </div>
+                        <div class="buttoncontentrightside pt-4">
+                                <a href="{% url 'create-checkout-session' obj.id %}" class="btn btn-lg btn-checkout" >Proceed to Payment</a>
+                        </div>
+                </div>
+</div>
+
+</div>          
+                </div>
+        </div>
+</body>

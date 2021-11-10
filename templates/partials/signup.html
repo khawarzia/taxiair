@@ -1,0 +1,89 @@
+<body>
+    <div class="signuppage">
+
+        <div class="inputarea ">
+            <div class="card">
+                <div class="card-body loginsignupinput">
+                
+                    <h2 class="text-bold-600">Details</h2>
+<form id="registerform" method="POST">{% csrf_token %}
+                    <div class="inputfields">
+                        <div class="individualfield">
+
+                        
+                            <input type="text" name="fullname" id="fullname-signup" placeholder="Full Name" autocomplete="off" required> 
+                                 <div class="inputfieldlogo-name-signup">
+                                    <i class="fas fa-file-signature"></i>
+                                 </div>
+                         </div>
+
+                    <div class="individualfield">
+
+                       <input type="text" name="phone" id="password-signup" placeholder="Phone"  autocomplete="off" required> 
+                       <div class="inputfieldlogo-password-signup">
+                        <i class="far fa-keyboard"></i>
+                    </div>
+                    </div>
+                      
+                     
+                    <div class="individualfield">
+
+                        <input type="email" name="email" id="email-signup" placeholder="Email Address"  autocomplete="off" required> 
+                        <div class="inputfieldlogo-email-signup">
+                         <i class="far fa-envelope"></i>
+                     </div>
+                     </div>
+                      
+
+                    <button class="btn btn-sm btn-loginsignup  w-100 mt-4" form="registerform">Continue</button>
+
+                </form>
+              
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if message %}
+    <script>
+        var message = '{{message}}'
+        console.log(message)
+             if(message == 'Please enter matching passwords!' || message == 'Please choose a different email address!' || message == 'Please choose a different username!'     ){
+                 
+               window.onload = function() {
+                showDangerToast();
+           };
+           message = ''
+       
+       }
+   
+   
+       showDangerToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Error',
+      text: '{{message}}',
+      showHideTransition: 'slide',
+      icon: 'error',
+      loaderBg: '#f2a654',
+      position: 'top-right'
+    })
+  };
+
+ 
+     resetToastPosition = function() {
+       $('.jq-toast-wrap').removeClass('bottom-left bottom-right top-left top-right mid-center'); // to remove previous position class
+       $(".jq-toast-wrap").css({
+         "top": "",
+         "left": "",
+         "bottom": "",
+         "right": ""
+       }); //to remove previous position style
+     }
+   </script>
+ 
+    {% endif %}
+</body>
+
+

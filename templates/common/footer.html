@@ -1,0 +1,23 @@
+<footer>
+    <div class="footer">
+        © TaxiAir.  All rights reserved. 
+    </div>
+</footer>
+<script>
+$(document).ready(function(){
+    $('#cartypetoggle').popover({
+        container: 'body',
+      html : true, 
+      content: function() {
+        return $('#customcartypemsg').html();
+      } 
+  });
+  $('#cartype2toggle').popover({
+        container: 'body',
+      html : true, 
+      content: function() {
+        return $('#customcartypemsg').html();
+      } 
+  });  
+});
+  </script>

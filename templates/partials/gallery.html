@@ -1,0 +1,30 @@
+<body class="gallerypage">
+    <div class="topareagallery">
+
+        <div class="gallerytitle">
+            <a class="taxiairsmalllink" href="/">
+            <p class="taxiairsmall">Taxi Air</p>
+        </a>
+        <h1>Gallery</h1></div>
+    </div>
+
+    <div class="container mt-3 mb-3">
+        <div class="card card-body">
+
+
+            <div class="row">
+                {% for i in imagecounter %}
+                <div class="col-lg-4 col-gallery">
+                    <div class="image-gallery">
+<img src="static/images/ImagesTaxiAir/{{i}}.jpeg" alt="Taxi Air">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+<script>
+
+</script>
+        </div>
+    </div>
+</body>
+

@@ -1,0 +1,83 @@
+<body>
+    <div class="loginsignuppage">
+
+        <div class="inputarea" id="inputarea" >
+            <div class="card">
+                <div class="card-body loginsignupinput">
+                
+                    <h2 class="text-bold-600">Login</h2>
+<form id="loginform" method="POST">{% csrf_token %}
+                    <div class="inputfields">
+                        <div class="individualfield">
+
+                        
+                       <input type="text" name="username" id="username" placeholder="Username" required> 
+                            <div class="inputfieldlogo-user">
+                                <i class="far fa-user"></i>
+                            </div>
+                    </div>
+                    <div class="individualfield">
+
+                       <input type="password" name="password" id="password" placeholder="Password"  autocomplete="off" required> 
+                       <div class="inputfieldlogo-password">
+                        <i class="far fa-keyboard"></i>
+                    </div>
+                    </div>
+                      <div class="otheroptions mt-2 text-right">
+                     <a href="#">Forgot Password?</a>
+                </div>
+
+                    <button class="btn btn-sm btn-loginsignup  w-100 mt-4" form="loginform">Login</button>
+
+                </form> 
+                <div class="otheroptions mt-1">
+                    Not Registered Yet? <a href="{% url 'signup' forward_id %}">Click Here!</a>
+                </div>
+              
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if message %}
+    <script>
+        var message = '{{message}}'
+        console.log(message)
+             if(message == 'Invalid Credentials!'){
+                 
+               window.onload = function() {
+                showDangerToast();
+           };
+           message = ''
+       
+       }
+   
+   
+       showDangerToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Error',
+      text: '{{message}}',
+      showHideTransition: 'slide',
+      icon: 'error',
+      loaderBg: '#f2a654',
+      position: 'top-right'
+    })
+  };
+
+ 
+     resetToastPosition = function() {
+       $('.jq-toast-wrap').removeClass('bottom-left bottom-right top-left top-right mid-center'); // to remove previous position class
+       $(".jq-toast-wrap").css({
+         "top": "",
+         "left": "",
+         "bottom": "",
+         "right": ""
+       }); //to remove previous position style
+     }
+   </script>
+ 
+    {% endif %}
+</body>
+
